@@ -1,38 +1,42 @@
 <template>
-  <div class="container modern-container">
-    <h1 style="text-align:center; font-size:2.2rem; margin-bottom:1.5rem; letter-spacing:-1px;">🎬 Movies</h1>
-    <div class="filters" style="display:flex; flex-wrap:wrap; gap:16px; justify-content:center; margin-bottom:24px; flex-direction:column; align-items:center;">
-      <div class="filter-row">
-        <label>Kategori</label>
-        <select v-model="selectedGenre" @change="applyFilters">
+  <div class="container mt-4 bg-white rounded shadow-sm p-4">
+    <h1 class="text-center mb-4 h3">🎬 Movies</h1>
+    <div class="row mb-3 justify-content-center">
+      <div class="col-6 col-md-3 mb-2">
+        <label class="form-label">Kategori</label>
+        <select v-model="selectedGenre" @change="applyFilters" class="form-select">
           <option value="">Tümü</option>
           <option v-for="g in genres" :key="g" :value="g">{{ g }}</option>
         </select>
       </div>
-      <div class="filter-row">
-        <label>Yıl</label>
-        <select v-model="selectedYear" @change="applyFilters">
+      <div class="col-6 col-md-3 mb-2">
+        <label class="form-label">Yıl</label>
+        <select v-model="selectedYear" @change="applyFilters" class="form-select">
           <option value="">Tümü</option>
           <option v-for="year in years" :key="year" :value="year">{{ year }}</option>
         </select>
       </div>
     </div>
-    <div class="search-bar">
-      <input v-model="search" @keyup.enter="fetchMovies" type="text" placeholder="Film adı..." />
-      <button @click="fetchMovies">ARA</button>
+    <div class="input-group mb-4" style="max-width: 400px; margin: 0 auto;">
+      <input v-model="search" @keyup.enter="fetchMovies" type="text" class="form-control" placeholder="Film adı...">
+      <button @click="fetchMovies" class="btn btn-primary">ARA</button>
     </div>
-    <div v-if="loading" class="modern-loading" style="display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:120px;">
-      <span class="loader"></span>
-      <span style="margin-top:18px; color:#ff9800; font-size:1.2rem; font-weight:700; letter-spacing:1px;">Yükleniyor, lütfen bekleyin...</span>
+    <div v-if="loading" class="d-flex flex-column align-items-center justify-content-center" style="min-height:120px;">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <span class="mt-3 text-secondary">Yükleniyor, lütfen bekleyin...</span>
     </div>
-    <div v-else-if="error" style="color:#e11d48; text-align:center; font-size:1.1rem; margin:2rem 0;">{{ error }}</div>
-    <div v-else class="movie-list" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,340px)); gap:28px; justify-content:center;">
-      <MovieCard v-for="movie in paginatedMovies" :key="movie.id || movie.imdbID" :movie="movie" />
+    <div v-else-if="error" class="text-center text-danger" style="font-size:1.1rem; margin:2rem 0;">{{ error }}</div>
+    <div v-else class="row g-3 justify-content-center">
+      <div v-for="movie in paginatedMovies" :key="movie.id || movie.imdbID" class="col-12 col-sm-6 col-md-4 col-lg-3">
+        <MovieCard :movie="movie" />
+      </div>
     </div>
-    <div v-if="totalPages > 1 && filteredMovies.length > 0 && movies.length > 0" style="display:flex; justify-content:center; gap:8px; margin:32px 0; flex-wrap:wrap;">
-      <button @click="goToPage(currentPage-1)" :disabled="currentPage===1">&lt;</button>
-      <button v-for="page in Math.min(totalPages, 10)" :key="page" @click="goToPage(page)" :style="{fontWeight: currentPage===page ? 'bold' : 'normal', background: currentPage===page ? '#ff9800' : '#fff', color: currentPage===page ? '#fff' : '#222', border: '1px solid #ff9800', borderRadius:'6px', padding:'4px 12px', margin:'2px'}">{{ page }}</button>
-      <button @click="goToPage(currentPage+1)" :disabled="currentPage===totalPages">&gt;</button>
+    <div v-if="totalPages > 1 && filteredMovies.length > 0 && movies.length > 0" class="d-flex justify-content-center flex-wrap mt-4" style="gap:8px;">
+      <button @click="goToPage(currentPage-1)" :disabled="currentPage===1" class="btn btn-outline-secondary btn-sm">&lt;</button>
+      <button v-for="page in Math.min(totalPages, 10)" :key="page" @click="goToPage(page)" :class="['btn', 'btn-sm', currentPage===page ? 'btn-primary' : 'btn-light']" :style="{fontWeight: currentPage===page ? 'bold' : 'normal', margin:'2px'}">{{ page }}</button>
+      <button @click="goToPage(currentPage+1)" :disabled="currentPage===totalPages" class="btn btn-outline-secondary btn-sm">&gt;</button>
     </div>
   </div>
 </template>

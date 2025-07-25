@@ -1,18 +1,16 @@
 <template>
-  <div class="movie-card-pro">
-    <div class="poster-wrap">
-      <img :src="getPosterUrl" :alt="getTitle" />
-      <span v-if="getRating" class="imdb-badge">⭐ {{ getRating }}</span>
+  <div class="card mb-4 movie-fixed-card">
+    <div class="d-flex flex-column align-items-center bg-light" style="min-height: 220px;">
+      <img :src="getPosterUrl" :alt="getTitle" class="img-fluid mt-2" style="width: 70%; border-radius: 8px; max-height: 180px; object-fit: cover;" />
+      <span v-if="getRating" class="badge bg-warning text-dark mt-2" style="font-size: 1.1em;">⭐ {{ getRating }}</span>
     </div>
-    <div class="movie-info">
-      <h2 class="movie-title">{{ getTitle }}</h2>
-      <div class="movie-meta">
-        <span class="badge">{{ getYear }}</span>
+    <div class="card-body d-flex flex-column">
+      <h2 class="card-title h5">{{ getTitle }}</h2>
+      <div class="mb-2">
+        <span class="badge bg-secondary">{{ getYear }}</span>
       </div>
-      <p class="movie-plot" v-if="getPlot">{{ getPlot.length > 120 ? getPlot.slice(0, 120) + '...' : getPlot }}</p>
-      <div class="imdb-link-wrap">
-        <a :href="getLink" target="_blank" class="imdb-link">Detay</a>
-      </div>
+      <p class="card-text flex-grow-1" v-if="getPlot">{{ getPlot.length > 120 ? getPlot.slice(0, 120) + '...' : getPlot }}</p>
+      <a :href="getLink" target="_blank" class="btn btn-primary w-100 mt-auto">Detay</a>
     </div>
   </div>
 </template>
@@ -66,116 +64,19 @@ export default {
 </script>
 
 <style scoped>
-.movie-card-pro {
-  background: #fff;
-  border-radius: 14px;
-  box-shadow: 0 4px 24px 0 rgba(60,60,90,0.10);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  transition: transform 0.18s, box-shadow 0.18s;
+.movie-fixed-card {
+  min-width: 260px;
+  max-width: 320px;
+  width: 100%;
   min-height: 420px;
-  position: relative;
-}
-.movie-card-pro:hover {
-  transform: translateY(-6px) scale(1.025);
-  box-shadow: 0 8px 32px 0 rgba(60,60,90,0.16);
-}
-.poster-wrap {
-  position: relative;
-  width: 100%;
-  height: 260px;
-  background: #f3f4f6;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-.poster-wrap img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-bottom: 1px solid #e5e7eb;
-}
-.imdb-badge {
-  position: absolute;
-  bottom: 10px;
-  right: 12px;
-  background: #facc15;
-  color: #222;
-  font-weight: 700;
-  font-size: 1.05em;
-  padding: 4px 10px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.10);
-}
-.movie-info {
-  padding: 18px 16px 16px 16px;
+  max-height: 480px;
   display: flex;
   flex-direction: column;
-  flex: 1;
-  min-height: 180px;
 }
-.movie-title {
-  font-size: 1.13rem;
-  font-weight: 700;
-  margin-bottom: 0.3em;
-  color: #22223b;
-  line-height: 1.2;
-}
-.movie-meta {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 0.4em;
-}
-.badge {
-  background: #e0e7ff;
-  color: #3730a3;
-  font-size: 0.93em;
-  padding: 2px 10px;
-  border-radius: 8px;
-  font-weight: 500;
-}
-.movie-plot {
-  color: #444;
-  font-size: 0.97em;
-  margin-bottom: 1em;
-  min-height: 2.2em;
-}
-.imdb-link-wrap {
-  margin-top: auto;
-  display: flex;
-  align-items: flex-end;
-  height: 40px;
-}
-.imdb-link {
-  background: #6366f1;
-  color: #fff;
-  text-align: center;
-  padding: 8px 0;
-  border-radius: 7px;
-  font-weight: 600;
-  text-decoration: none;
-  transition: background 0.18s;
-  font-size: 1em;
-  width: 100%;
-  display: block;
-}
-.imdb-link:hover {
-  background: #4338ca;
-}
-@media (max-width: 600px) {
-  .movie-card-pro {
-    min-height: 340px;
-  }
-  .poster-wrap {
-    height: 180px;
-  }
-  .movie-info {
-    padding: 12px 8px 10px 8px;
-  }
-  .imdb-link-wrap {
-    height: 36px;
+@media (max-width: 576px) {
+  .movie-fixed-card {
+    min-width: 100%;
+    max-width: 100%;
   }
 }
 </style> 
